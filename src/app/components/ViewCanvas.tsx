@@ -1,6 +1,7 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
+import { SodaCan } from "./SodaCan";
 
 type Props = {};
 
@@ -23,10 +24,11 @@ export default function ViewCanvas({}: Props) {
         fov: 30,
       }}
     >
-      <mesh rotation={[0.5, 0.5, 0]} position={[1, 0, 0]}>
+      {/* <mesh rotation={[0.5, 0.5, 0]} position={[1, 0, 0]}>
         <boxGeometry />
         <meshStandardMaterial color={"hotpink"} />
-      </mesh>
+      </mesh> */}
+      <SodaCan />
       <ambientLight intensity={2} />
       <spotLight intensity={3} position={[1, 1, 1]} />
     </Canvas>
