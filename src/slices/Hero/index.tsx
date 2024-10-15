@@ -14,6 +14,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Scene from "./Scene";
 import { Bubbles } from "./Bubbles";
 import { useStore } from "@/hooks/useStore";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -21,10 +22,11 @@ export type HeroProps = SliceComponentProps<Content.HeroSlice>;
 
 const Hero = ({ slice }: HeroProps): JSX.Element => {
   const ready = useStore((state) => state.ready);
+  const isDesktop = useMediaQuery("(min-width: 768px)", true);
 
   useGSAP(
     () => {
-      if (!ready) return;
+      if (!ready && isDesktop) return;
 
       const introTl = gsap.timeline();
 
@@ -91,7 +93,7 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
           opacity: 0,
         });
     },
-    { dependencies: [ready] },
+    { dependencies: [ready, isDesktop] },
   );
 
   return (
@@ -100,10 +102,12 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
       data-slice-variation={slice.variation}
       className="hero opacity-0"
     >
-      <View className="hero-scene pointer-events-none sticky top-0 z-50 -mt-[100vh] hidden h-screen w-screen md:block">
-        <Scene />
-        <Bubbles count={300} speed={1.5} repeat={true} />
-      </View>
+      {isDesktop && (
+        <View className="hero-scene pointer-events-none sticky top-0 z-50 -mt-[100vh] hidden h-screen w-screen md:block">
+          <Scene />
+          <Bubbles count={300} speed={1.5} repeat={true} />
+        </View>
+      )}
       <div className="grid">
         <div className="grid h-screen place-items-center">
           <div className="grid auto-rows-min place-items-center text-center">
